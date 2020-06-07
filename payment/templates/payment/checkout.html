@@ -1,0 +1,152 @@
+<html>
+{% load static %}
+<head onload="submitPayuForm()">
+  <script type="text/javascript">
+    var hash = "{{ hashh }}";
+    function submitPayuForm() {
+      if(hash =='') {
+        return;
+      }
+      var payuForm = document.forms.payuForm;
+      payuForm.submit();
+    }
+  </script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'static_files/css/styles5.css' %}" />
+  </head>
+  <body>
+   <nav class="navbar navbar-expand-sm navbar-dark " id="navigation">
+      <div class="container">
+        <a href="#" class="navbar-brand"><img src="{% static 'static_files/img/220px-Pvrcinemas_logo.jpg' %}" width="100px" height="80px" /></a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#mynavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mynavbar" class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto ">
+            <li class="nav-item">
+              <a href="{% url 'home:home_list' %}" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'home:home_list' %}#section2" class="nav-link">Movies</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'home:home_list' %}#section3" class="nav-link">Food</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+   <div class="container w-100">
+    <h2 class="display-4 text-light my-3">PayU Form</h2>
+    <br/>
+    {% if error %}
+
+      <span style="color:red">Please fill all mandatory fields.</span>
+      <br/>
+      <br/>
+      {% endif %}
+
+      <form action={{ posted.action }} class="form-group" method="post" name="payuForm">
+        <input class="form-control" type="hidden" name="key" value="{{posted.key}}" />
+        <input class="form-control" type="hidden" name="hash_string" value="{{ posted.hash_string }}" />
+        <input class="form-control" type="hidden" name="hash" value="{{ posted.hashh }}"/>
+        <input class="form-control" type="hidden" name="posted" value="{{ posted }}"/>
+        <input class="form-control" type="hidden" name="txnid" value="{{ posted.txnid }}" />
+      <table>
+        <tr>
+          <td class="text-secondary m-2"><b>Personal Details</b></td>
+        </tr>
+        <tr>
+         <td class="text-light p-2">Amount: </td>
+          <td><input class="form-control my-2 " name="amount" readonly value="{{ posted.amount|default:'' }}" /></td>
+          <td class="text-light p-2">First Name: </td>
+          <td><input class="form-control my-2" name="firstname" id="firstname" value="{{ posted.firstname|default:'' }}" /></td>
+        </tr>
+        <tr>
+          <td class="text-light p-2">Email: </td>
+          <td><input class="form-control my-2" name="email" id="email" readonly value="{{ posted.email|default:'' }}" /></td>
+          <td class="text-light p-2">Phone: </td>
+          <td><input class="form-control my-2" name="phone" readonly value="{{ posted.phone|default:'' }}" /></td>
+        </tr>
+        <tr style="display:none">
+          <td>Product Info: </td>
+          <td colspan="3"><textarea name="productinfo">{{ posted.productinfo|default:'' }}</textarea></td>
+        </tr>
+        <tr>
+          <td colspan="3"><input type="hidden" name="surl" value="{{ posted.surl }}" size="64" /></td>
+          <td colspan="3"><input type="hidden" name="furl" value="{{ posted.furl }}" size="64" /></td>
+        </tr>
+
+        <tr>
+          <td colspan="3">
+                <input type="hidden" name="service_provider" value="{{posted.service_provider}}" size="64" />
+          </td>
+        </tr>
+             <tr>
+          <td class="text-secondary"><b>Movie Details</b></td>
+        </tr>
+        <tr>
+          <td><input type="hidden" name="lastname" id="lastname"  value="{{ posted.lastname }}" /></td>
+          <td><input type="hidden" name="curl" value="" /></td>
+          <td><input type="hidden"name="address1" value="{{ posted.address1 }}" /></td>
+          <td><input type="hidden"name="address2" value="{{ posted.address2 }}" /></td>
+          <td><input type="hidden"name="city" value="{{ posted.city }}" /></td>
+          <td><input type="hidden"name="state" value="{{ posted.state }}" /></td>
+          <td><input type="hidden"name="country" value="{{ posted.country }}" /></td>
+          <td><input type="hidden"name="zipcode" value="{{ posted.zipcode }}" /></td>
+        </tr>
+        <tr>
+          <td class="text-light p-2">Movie Name </td>
+          <td><input class="form-control my-2" name="udf1" readonly value="{{ posted.udf1 }}" /></td>
+          <td class="text-light p-2">Seat number </td>
+          <td><input class="form-control my-2" name="udf2" readonly value="{{ posted.udf2 }}" /></td>
+        </tr>
+        <tr>
+          <td class="text-light p-2">Show Type </td>
+          <td><input class="form-control my-2" name="udf3" readonly value="{{ posted.udf3 }}" /></td>
+          <td class="text-light p-2">Audi </td>
+          <td><input class="form-control my-2" name="udf4" readonly value="{{ posted.udf4 }}" /></td>
+        </tr>
+        <tr>
+          <td><input type="hidden" name="udf5" value="{{ posted.udf5 }}" /></td>
+        </tr>
+
+     <td colspan="4"><input class="btn btn-light" type="submit" value="Submit" /></td>
+
+
+        </tr>
+      </table>
+    </form>
+     </div>
+   <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

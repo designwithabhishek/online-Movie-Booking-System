@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+{% load static %}
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'static_files/css/styles5.css' %}" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark " id="navigation">
+      <div class="container">
+        <a href="#" class="navbar-brand"><img src="{% static 'static_files/img/220px-Pvrcinemas_logo.jpg' %}" width="100px" height="80px" /></a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#mynavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mynavbar" class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto ">
+            <li class="nav-item">
+              <a href="{% url 'home:home_list' %}" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'home:home_list' %}#section2" class="nav-link">Movies</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'home:home_list' %}#section3" class="nav-link">Food</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+    <section id="myform" class="container my-3">
+      <h1 class="display-3 text-white my-3">Book Tickets online</h1>
+        <b><h2 class="text-secondary">Enter your Personal details</h2></b>
+        <form
+        class="form-group"
+        action="{% url 'payment:finalsummary' %}"
+        name="payuform"
+        method="POST"
+      >
+      {% csrf_token %}
+        <table class="w-100">
+
+          <tr>
+            <td class="text-secondary">First Name:</td>
+            <td class="text-secondary p-2">
+              <input
+                class="form-control my-2"
+                name="firstname"
+                id="firstname"
+                required
+              />
+            </td>
+            <td class="text-secondary">Amount</td>
+            <td class="text-secondary  p-2">
+              <input  class="form-control my-2" id="amount" name="amount" readonly />
+            </td>
+              <!--
+              <td class="text-secondary">Last Name: </td>
+              <td><input name="lastname" class="form-control my-2"id="lastname"  /></td>
+              -->
+          </tr>
+
+          <tr>
+            <td class="text-secondary">Email:</td>
+            <td class="p-2">
+              <input type="email" class="form-control my-2" name="email" required id="email" />
+            </td>
+            <td class="text-secondary">Phone:</td>
+            <td class="p-2">
+              <input type="number" required  class="form-control my-2" name="phone" />
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><input type="hidden" name="surl" value="{% url 'payment:payment_success'  %}" size="64" /></td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><input type="hidden" name="furl" value="{% url 'payment:payment_failure'  %}" size="64" /></td>
+          </tr>
+
+          <tr>
+            <td colspan="3">
+              <input type="hidden" name="service_provider" value="payu_paisa" />
+            </td>
+          </tr>
+            <input type="hidden" id="Movie" name="Movie" value="" />
+            <input type="hidden" id="format" name="format" value="" />
+            <input type="hidden" id="seatnumber" name="seatnumber" value="" />
+            <input type="hidden" id="audi" name="audi" value="" />
+            <input type="hidden" id="layout"  name="layout" value="" />
+          <tr>
+            >
+            <td colspan="4">
+              <input class="btn btn-light" type="submit" value="Submit" />
+            </td>
+          </tr>
+        </table>
+      </form>
+    </section>
+
+
+    <script>
+        obj=JSON.parse(sessionStorage.getItem('summary'));
+        document.getElementById('Movie').value=obj.movie
+        document.getElementById('format').value=obj.format
+        document.getElementById('seatnumber').value=obj.seats
+        document.getElementById('amount').value=Number(obj.price)
+        document.getElementById('audi').value=obj.audi
+       document.getElementById('layout').value=obj.layout
+    </script>
+
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

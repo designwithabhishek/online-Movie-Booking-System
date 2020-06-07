@@ -1,0 +1,69 @@
+body {
+  overflow-x: hidden;
+}
+.navigation {
+  background-color: black;
+  z-index: 99;
+  position: fixed;
+  width: 10%;
+  height: 100%;
+}
+.nav-menu {
+  position: relative;
+}
+#section1 {
+  min-height: 100vh;
+  background-image: url(../img/cropped-1920-1080-1002388.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+}
+.overlay {
+  background-image: linear-gradient(
+    to right,
+    rgba(15, 15, 15, 1),
+    rgba(20, 20, 20, 0.1)
+  );
+  min-height: 100vh;
+}
+#movie-info {
+  height: 100%;
+}
+.card {
+  border: none;
+  background-color: #141414;
+  min-width: 200px;
+}
+
+#section2 {
+  min-height: 110vh;
+  background-color: #141414;
+  overflow-x: scroll;
+}
+.cast {
+  min-width: 100%;
+  overflow-x:scroll;
+}
+@media screen and (max-width: 500px) {
+  .navigation {
+    position: relative;
+    width: 100%;
+  }
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #A9A9A9;
+  border-radius:5px 5px;
+}
+html {
+  scroll-behavior: smooth;
+}

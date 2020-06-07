@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bootstrap Theme</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'static_files/css/styles.css' %}" />
+  </head>
+  <body>
+    <!--
+       header
+   -->
+    <header>
+      <nav
+        class=" navbar navbar-expand-sm navbar-dark fixed-top"
+        id="navigation"
+      >
+        <div class="container">
+          <a href="#" class="navbar-brand "><img src="{% static 'static_files/img/220px-Pvrcinemas_logo.jpg' %}" width="100px" height="80px" /> </a>
+          <button
+            class="navbar-toggler"
+            data-toggle="collapse"
+            data-target="#mynavbar"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a href="#" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="#section2" class="nav-link">Movies</a>
+              </li>
+              <li class="nav-item">
+                <a href="#section3" class="nav-link">Food</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!--
+       main-content
+     -->
+    <div
+      id="carouselExampleSlidesOnly"
+      class="carousel slide"
+      data-ride="carousel"
+    >
+      <div class="carousel-inner">
+      {% for movie in movie_details %}
+        {% if movie.cover_page %}
+        <div class="carousel-item ">
+          <img
+            src="{{movie.cover_page.url}}"
+            class="d-block w-100 movie-image"
+            alt="..."
+          />
+          <div class="content-1">
+            <h5 class="display-4 ">{{movie.name}}</h5>
+            <p class="lead">
+              {{movie.overview}}
+            </p>
+
+              <a class="btn btn-light"  href="{% url 'booking:booking_list' movie.id%}">Book Tickets</a>
+
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="overlay fixed-top"></div>
+    </div>
+    <!--
+     now playing
+   -->
+    <section class="now-playing" id="section2">
+      <div class="container p-5">
+        <div class="display-3 text-center text-white mb-5">Now Playing</div>
+        <div class="row">
+          {% for movie in movie_details %}
+          <div class="col-lg-4 col-sm-6">
+            <a href="{% url 'movies:movie_details' movie.id %}"><div class="card">
+              <img
+                class="card-img-top"
+                src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}"
+              />
+            </div></a>
+          </div>
+          {% endfor %}
+        <!--
+          <div class="col-lg-4 col-sm-6">
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="{% static 'static_files/img/hbs-tsr1sheet-rgb-2-sm-5c54957d843cd-1.jpg' %}"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="{% static 'static_files/img/MV5BMDFhYzQyOWMtMzM5OS00NDQyLTk1OTQtMTgxNTEwM2RiYmQ4XkEyXkFqcGdeQXVyMjUxMTY3ODM@._V1_QL50_SY1000_CR0,0,692,1000_AL_.jpg' %}"
+              />
+            </div>
+          </div>
+          -->
+        </div>
+      </div>
+    </section>
+    <!--
+      Food
+    -->
+    <section id="section3">
+      <div class="row m-0">
+        <div class="col-md-6 food"></div>
+        <div class="col-md-6 p-5 " style="background-color:#202020">
+          <h1 class="display-2 text-light">Food and Drinks</h1>
+          <p class="lead text-secondary">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus at
+            dolorum quae alias voluptatum minima doloribus eligendi dignissimos.
+            Fugiat magnam corporis, praesentium repellendus enim obcaecati,
+            deserunt, qui libero provident ab quam! Culpa animi velit commodi
+            corporis assumenda aut nostrum perspiciatis error ipsa incidunt!
+            Tenetur hic sequi quisquam temporibus harum qui.
+          </p>
+          <div class=" p-3">
+            <blockquote class="blockquote ">
+              <p class="mb-0 text-light">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+                posuere erat a ante.
+              </p>
+              <footer class="blockquote-footer ">
+                Someone famous in <cite title="Source Title">Source Title</cite>
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--
+      Trending movie
+    -->
+    <section>
+      <div class="row m-0">
+        <div class="col-md-6 text-light p-5" style="background-color: #141414">
+          <h1 class="display-2 mb-3">Trending</h1>
+          <h3 class="text-secondary display-4">Spiderman far from home</h3>
+          <p class="lead text-dark ">2019 2h 9min Cert. 12A</p>
+          <div class="p-2">
+            <blockquote class="blockquote ">
+              <p class="mb-0 text-light">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+                posuere erat a ante.
+              </p>
+              <footer class="blockquote-footer ">
+                Someone famous in <cite title="Source Title">Source Title</cite>
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+        <div class="col-md-6 p-0" style="background-color: black">
+          <div class="embed-responsive embed-responsive-4by3">
+            <iframe
+              class="embed-responsive-item"
+              src="https://www.youtube.com/embed/Nt9L1jCKGnE?controls=0"
+              allowfullscreen
+              autoplay
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--
+      footer
+    -->
+    <footer style="background-color:black">
+      <div class="container p-3 text-center text-secondary">
+        Copyright&copy;PVR Cinema
+      </div>
+    </footer>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+     // $('#year').text(new Date().getFullYear());
+     var a=document.getElementsByClassName('carousel-item')[0];
+     a.classList.add("active");
+     function abc()
+     {
+
+     }
+    </script>
+  </body>
+</html>

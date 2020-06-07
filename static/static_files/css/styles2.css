@@ -1,0 +1,56 @@
+.movie-display {
+  width: 100%;
+  height: 100vh;
+}
+#movie-video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+#movie-data {
+  width: 100%;
+  height: 100vh;
+  background-image: url('../img/cropped-1920-1080-1002388.jpg');
+  background-size: cover;
+}
+.overlay {
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.1)
+  );
+}
+#navigation-menu {
+  background-color: #141414;
+  position: relative;
+}
+
+.card {
+  width: 200px;
+  height: 300px;
+}
+#cast {
+  position: absolute;
+  width: 0px;
+  visibility: hidden;
+  min-height: 100vh;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  transition: width 3s;
+}
+.visibility-change {
+  opacity: 0;
+  transition: opacity 2s;
+}
+#reviews {
+  position: absolute;
+  min-height: 100vh;
+  width: 0px;
+  visibility: hidden;
+  top: 0;
+  right: 0;
+  transition: width 5s;
+}

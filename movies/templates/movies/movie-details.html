@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+{% load static %}
+{% load customfilters %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bootstrap Theme</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'static_files/css/styles4.css' %}" />
+  </head>
+  <body>
+    <!-- start -->
+    <section>
+      <div class="row m-0">
+        <div class="col-sm-1 p-0 nav-menu">
+            
+          <div class="navigation">
+              <div class=" d-flex flex-column w-100 h-100 align-items-center m-0 ">
+                <div class=" my-3"><a href="{% url 'home:home_list' %}"
+                ><i class="fas fa-lg fa-home text-secondary "></i
+                ></a></div>
+                <div class=" my-3"><a href="#section2"
+                ><i class="fas fa-lg fa-video text-secondary"></i
+                ></a></div>
+                <div class=" my-3"><a href="" 
+                ><i class="fas fa-lg fa-search text-secondary"></i
+                ></a></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-11 p-0">
+          <!-- Movie info-->
+          <div id="section1">
+            <div
+              class="overlay w-100 p-5"
+              id="movie-info"
+            >
+              <h1 class="display-3 text-white my-4">{{movie_details.name}}</h1>
+              <p class="text-light lead w-50">
+                {{movie_details.overview}}
+              </p>
+           <a href="{% url 'booking:booking_list' movie_details.id %}"><button class="btn btn-outline-light">
+                Book Tickets
+              </button></a>
+              <p class="text-white my-5 text-secondary">Scroll to know more</p>
+            </div>
+          </div>
+          <!--Movie Cast-->
+             <div class="p-4" id="section2">
+                <h1 class="display-2 text-white  ">Meet the Cast</h1>
+                <div class="d-flex cast py-5">
+                  {% for cast in casting %}
+                    {% if cast.cast_image %}
+                    <div class="card">
+                    <img
+                      class="card-img-top"
+                      src="https://image.tmdb.org/t/p/w500{{cast.cast_image}}"
+                    />
+                    <div class="card-body">
+                      <h4 class="text-light">{{cast.name}}</h4>
+                      <h6 class="text-secondary">{{cast.character}}</h6>
+                    </div>
+                  </div>
+                    {% endif %}
+                    {% endfor %}
+            </div>
+        </div>
+            <!--reviews-->
+            <div class="p-4 bg-white " id="reviews">
+                <h1 class="display-2 text-dark my-3 p-3">{{movie_details.name}}</h1>
+                <div class="container"> 
+                    <div class="rating">
+                        <i class="fas fa-lg fa-star text-primary"></i>
+                        <i class="fas fa-lg fa-star text-primary"></i>
+                        <i class="fas fa-lg fa-star text-primary"></i>
+                        <i class="fas fa-lg fa-star text-primary"></i>
+                        <i class="fas fa-lg fa-star text-primary"></i>
+
+                    </div>
+                    <div class="bg-light p-3">
+                       <h2 class="display-4">Reviews</h2>
+
+                       <div class="comment d-flex row p-2">
+                        {% for review in reviews %}
+                         <div class="col-md-6 mt-2  media">
+                           <img src="{{review.image.url}}" width="100px" height="150px" />
+                            <div class="p-3 text-dark  media-body">
+                            <h4 class="display-4">{{review.name}}</h4>
+                                {% for i in review.rating|times %}
+                                <i class="fas fa-lg fa-star text-primary"></i>
+                                {% endfor %}
+                                <p class="lead">{{review.message}}</p>
+                            </div>
+                         </div>
+                           {% endfor %}
+                       </div>
+                    </div> 
+                    <div class="my-2 row bg-light">
+                      <div class="col p-4">
+
+                        <h2 class="display-4 my-4">Leave a comment</h2>
+                        <form onsubmit="return false" action="{% url 'movies:movie_details' movie_details.id %}" id="reviewform" enctype="multipart/form-data" method="POST" class="form-group">
+                           {% csrf_token %}
+                          <p class="lead">Star Rating <span class="mx-2 text-primary" id="starrating"  ><input type="hidden" name="starrating" value="0" id="starcount"> <i class="far fa-star stars" onclick="calculaterating(1)"></i><i class="far fa-star stars" onclick="calculaterating(2)"></i><i class="far fa-star stars" onclick="calculaterating(3)"></i><i class="far fa-star stars" onclick="calculaterating(4)"></i><i class="far fa-star stars" onclick="calculaterating(5)"></i></span></p>
+                           <div class="invalid-feedback" id="star_feedback">
+                                Please Provide star rating
+                            </div>
+                            <input type="text" name="name"  id="username" class="form-control my-2" placeholder="Enter your Name">
+                            <div class="invalid-feedback">
+                                Please Enter your name
+                            </div>
+                            <div class="custom-file my-2">
+                          <input type="file" name="image" id="profilepic" class="custom-file-input" placeholder="Upload your profile pic">
+
+                                <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                <div class="invalid-feedback">
+                                Please upload your profile pic
+                            </div>
+                          </div>
+                          <textarea class="form-control" id="comments" name="message" rows=10 >Enter your message</textarea>
+                            <div class="invalid-feedback">
+                                Please Enter your review . We would love to know opinion
+                            </div>
+                            <input class="btn btn-dark my-2" onclick="abc(event)"  type="submit" value="submit">
+                        </form>
+                          {% if messages %}
+                          {% for message in messages %}
+                          <div class="alert alert-success">{{message}}</div>
+                          {% endfor %}
+                          {% endif %}
+                      </div>
+                    </div>
+                    </div> 
+                   </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <script>
+       function abc(e)
+      {
+        let name=document.getElementById('username');
+        let profile=document.getElementById('profilepic');
+        let comment=document.getElementById('comments');
+        let form=document.getElementById('reviewform');
+        let stars=document.getElementById('starcount');
+        st=document.getElementById('starrating');
+        name.classList.remove('is-invalid');
+        profile.classList.remove('is-invalid');
+        comment.classList.remove('is-invalid');
+        st.classList.remove('text-danger');
+        if(stars.value==0)
+        {
+         st.classList.remove('text-primary');
+          st.classList.add('text-danger');
+          document.getElementById('star_feedback').style.display='block';
+        }
+        else if(name.value=='')
+        {
+         name.classList.add('is-invalid');
+        }
+        else if(comment.value=='Enter your message')
+        {
+         comment.classList.add('is-invalid');
+        }
+        else
+        {
+         form.submit();
+        }
+       }
+
+       // calculate rating
+
+       function calculaterating(value)
+       {
+        st=document.getElementById('starrating');
+        if(st.classList.contains('text-danger'))
+        {
+         st.classList.remove('text-danger');
+         st.classList.add('text-primary');
+         document.getElementById('star_feedback').style.display='none';
+         }
+        var number_of_stars=document.getElementsByClassName('stars');
+        for(i=0;i<number_of_stars.length;i++)
+        {
+         if(number_of_stars[i].classList.contains('fas'))
+         {
+          number_of_stars[i].classList.remove('fas');
+          number_of_stars[i].classList.add('far');
+         }
+        }
+
+        for(i=0;i<value;i++)
+        {
+         number_of_stars[i].classList.remove('far');
+         number_of_stars[i].classList.add('fas');
+        }
+        let starrating=document.getElementsByName('starrating')[0];
+        starrating.value=value;
+       }
+    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      //$('#year').text(new Date().getFullYear());
+      var a=document.getElementById('section1');
+      a.style.background="url('{{movie_details.cover_page.url}}')";
+
+    </script>
+  </body>
+</html>

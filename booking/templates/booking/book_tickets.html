@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bootstrap Theme</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'static_files/css/style3.css' %}" />
+  </head>
+  <body>
+    <div class="row m-0 p-0" id="book_tickets">
+      <!-- navigation -->
+        <div
+          class="d-flex m-0 align-items-center  flex-column py-4 "
+          id="navigation"
+        >
+          <a href="{% url 'home:home_list' %}" class="nav-link  my-3"
+            ><i class="fas fa-lg fa-home text-secondary"></i
+          ></a>
+          <a href="" class="nav-link my-3"
+            ><i class="fas fa-lg fa-video text-secondary"></i
+          ></a>
+          <a href="" class="nav-link my-3"
+            ><i class="fas fa-lg fa-search text-secondary"></i
+          ></a>
+        </div>
+    
+        <!--form-->
+        <p id="message">
+
+        </p>
+          <div class="d-flex p-5 my-0 flex-column" id="section1">
+            <h1 class="display-1 text-white mb-3 mt-2">Book Tickets</h1>
+            <p class="lead text-secondary">Selected movie :<b> {{movie_details.name}}</b></p>
+            <h2 class="display-3 text-white">Available Formats</h2>
+            <div class="row">
+                {% for showtype in show_types %}
+                <h1 class="display-4 text-primary p-2 col-md-3" onclick="chooseformat('{{showtype.audi_type}}')">{{showtype.audi_type}}</h1>
+                {% endfor %}
+            </div>
+            <div class="my-5">
+             <button class="btn btn-dark px-4" onclick="callnext(1)">Next</button>
+            </div>
+          </div>
+          
+          <div class="row d-flex h-100 p-0  " id="section2">
+                <div class="col-lg-8 col-md-12 p-5" id="section2-part1">
+                 <h1 class="display-3 text-white mb-3 mt-2">Available Shows</h1>
+                 <p class="lead text-secondary">Selected movie :<b id="moviename"> {{movie_details.name}}</b></p>
+                 <ul class="d-flex row  p-0 ">
+                {% for date in dates %}
+                 <li class="display-4 m-2 btn days text-white col" id="{{date.date}}" value="{{date.date}}" onclick="filterbydate('{{date.date}}')">{{date.day}}</li>
+                 {% endfor %}
+                 </ul>
+                 
+                 <table class="table">
+                  <thead> 
+                  <tr>
+                    <td class="lead text-light p-2  "></td>
+                    <td class="lead text-light p-2  ">Date</td>
+                    <td class="lead text-light p-2  ">Start Time</td>
+                     <td class="lead text-light p-2  ">End Time</td>
+                      <td class="lead text-light p-2  ">Status</td>
+                      <td class="lead text-light p-2  ">Price</td>
+                   </tr>
+                  </thead>
+                  <tbody id="show_content" >
+
+                  </tbody>
+                 </table>  
+                 <div class="my-5">
+                  <button class="btn btn-dark px-4  " onclick="callprev(1)">Prev</button>
+                  <button class="btn btn-dark px-4  " onclick="callnext(2)">Next</button>
+                </div>
+                </div>
+                <div class="col-lg-4 p-0 m-0 selectedmovie" id="section2-part2">
+                    <img src="https://image.tmdb.org/t/p/w500{{movie_details.poster_path}}"  class="w-100 h-100" />
+                </div>
+              </div>
+              <div class="row d-flex h-100 p-0  " id="section3">
+               <div class="section3-overlay justify-content-center p-5">
+                <div class="row" >
+                    <div class="col-1" id="allrows">
+                        {% for rowname in audiA_rows %}
+                         <div class="col-12 p-2 ">
+                                <div class="seat text-white"  id="{{rowname.row}}">
+                                {{rowname.row}}
+                                </div>
+                         </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-11">
+                        <div class="row" id="screenLayout">
+                            {% for seat in audiA %}
+                            {% if seat.seat_number == 25 %}
+                             <div class="col-12 border border-white">
+
+                             </div>
+                            {% endif %}
+                            <div class="col-1 p-2 ">
+                                <div class="border border-white seat bg-light"  id="{{seat.seat_number}}" status="{{seat.status|lower}}" onclick="changestatus({{seat.seat_number}})">
+
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row">
+                        <div class="col-2 p-2">
+                            <button class="btn btn-light px-4 align-self-center
+                            " onclick="callprev(2)">Prev</button>
+                        </div>
+                        <div class="col-8 d-flex justify-content-center  ">
+                          <div class="trapezoid bg-light ">
+                          </div>
+                        </div>
+                        <div class="col-2 p-3">
+                            <button class="btn btn-light px-4 align-self-center border border-white
+                                  " onclick="callnext(3)">Next</button>
+                        </div>
+                        </div>
+                   </div>
+                    </div>
+
+               </div>
+
+              </div>
+              <div class="d-flex h-100 p-0 " id="section4">
+               <div class="col-lg-6 p-5 m-0" id="section4-part1">
+                 <h1 class="display-2 text-white">Enjoy the Food at PVR  </h1>
+                 <p class="lead text-secondary color-change">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum vitae quasi excepturi saepe quis tempora reprehenderit minima sed est tenetur.</p>
+                  <ul id="meal-box">
+                   <li class="lead text-light "><input  type="radio" name="meal" /><b class="mx-2">Popcorn large + Burger +Pepsi</b></li>
+                   <li class="lead text-light"><input type="radio" name="meal" /><b class="mx-2">Popcorn large + Burger +Pepsi</b></li>
+                   <li class="lead text-light"><input type="radio" name="meal" /><b class="mx-2">Popcorn large + Burger +Pepsi</b></li>
+                   <li class="lead text-light"><input type="radio" name="meal" /><b class="mx-2">Popcorn large + Burger +Pepsi</b></li>
+                  </ul>
+                
+                  <button class="btn btn-dark px-4 float-left m-3 
+                  " onclick="callprev(3)">Prev</button>
+                
+                  <button class="btn btn-dark px-4  m-3
+                  " onclick="callnext(4)">Next</button>
+                
+                </div>
+                <div class="col-lg-6 p-0 m-0 food-corner" id="section4-part2">
+                  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img class="d-block w-100" src="{% static 'static_files/img/bread-burger-cheese-580612.jpg' %}" alt="First slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'static_files/img/chocolate-close-up-food-2424.jpg' %}" alt="Second slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'static_files/img/baking-cheese-crust-315755.jpg' %}" alt="Third slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'static_files/img/appetizing-bread-close-up-357573.jpg' %}" alt="Third slide">
+                      </div>
+                    </div>
+                  </div>      
+                </div>
+              </div>
+              <div class=" h-100" id="section5">
+              
+              <div class="d-flex row ">
+               <div class="col-lg-6 p-5 d-flex flex-column " id="section5-part1">
+                <h1 class="display-2 mb-3 ">Summary</h1>
+                <table>
+                <tr>
+                  <td ><b>Movie Name</b></td>
+                  <td>{{movie_details.name}}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Show type</b>
+                  </td>
+                  <td class="text-primary" id="summary_show"></td>
+                </tr>
+                <tr>
+                  <td><b>Number of tickets </b></td>
+                  <td id="summary_ticket"></td>
+                </tr>
+                <tr>
+                  <td><b>Total price</b> </td>
+                  <td id="summary_price"></td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Seat number</b>
+                  </td>
+                  <td id="summary_seatno"></td>
+                </tr>
+              </table>
+                   <button class="btn btn-outline-dark my-4"><a href="{% url 'payment:generateform' %}">Proceed to Payment</a></button>
+            </div>  
+            <div class="col-lg-6 p-0 m-0">
+                <img src="https://image.tmdb.org/t/p/w500{{movie_details.poster_path}}"class="w-100 h-100" />
+            </div>
+            </div>
+            </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      //$('#year').text(new Date().getFullYear());
+      var seats=[];
+      var a=document.getElementById('section1');
+      var b=document.getElementById('section2');
+      var c=document.getElementById('section3');
+      var d=document.getElementById('section4');
+      var e=document.getElementById('section5');
+      var  f=document.getElementById('moviename');
+      var m=f.innerText;
+      var currentdate=new Date();
+      active_date=currentdate.getFullYear()+"-"+Number(currentdate.getMonth()+1)+"-"+currentdate.getDate();
+      //alert(active_date);
+      document.getElementById(active_date).style.backgroundColor="black";
+      function chooseformat(value)
+      {
+       //alert(value);
+       sessionStorage.setItem("format",value);
+      }
+
+      function changestatus(val)
+      {
+       //alert(val);
+        let seat_no=document.getElementById(val);
+        available=seat_no.getAttribute('available');
+        status=seat_no.getAttribute('status');
+        if(available=='Yes')
+        {
+            if(status=='false')
+            {
+         //    alert('a');
+             seat_no.classList.remove('bg-light');
+             seat_no.classList.add('bg-dark');
+             seat_no.setAttribute('status',true);
+             seats.push(val);
+           //  alert(seats.length);
+             sessionStorage.setItem('selected_seat',seats);
+
+            }
+             else
+             {
+             //alert('b');
+              seat_no.classList.remove('bg-dark');
+             seat_no.classList.add('bg-light');
+             seat_no.setAttribute('status',false);
+             seats.pop(val);
+             sessionStorage.setItem('selected_seat',seats);
+             }
+         }
+      }
+      function callnext(num)
+      {
+       var move_forward=0;
+        if(num==1)
+        {
+         if(sessionStorage.getItem('format'))
+         {
+
+          selected_format=sessionStorage.getItem('format')
+          sessionStorage.removeItem('format');
+          move_forward=1;
+          //alert('active');
+          $.ajax({
+          url:'{% url 'booking:filter' %}',
+          data:{
+           'format':selected_format,
+           'movie':'{{movie_details.id}}',
+           'selected_date':"{{dates.0.date}}"
+          },
+          success:function(data)
+          {
+            //console.log(data.newview);
+
+            //alert(data.shows);
+           for(i=0;i<data.shows.length;i++)
+           {
+            document.getElementById('show_content').innerHTML+="<tr>"+
+                     "<td><input type='radio' name='date' value='"+data.shows[i].layout+"'/></td>"+
+                      "<td class='lead text-secondary  p-2  '>"+data.shows[i].date+"</td>"+
+                      "<td class='lead text-secondary  p-2  '>"+data.shows[i].start_time+"</td>"+
+                      "<td class='lead text-secondary  p-2  '>"+data.shows[i].end_time+"</td>"+
+                      "<td class='lead text-secondary p-2  '>Fast filling</td>"+
+                       "<td class='lead text-secondary  p-2  '>"+data.shows[i].price+"</td>"+
+                   "</tr>";
+            }
+           //alert("data sent");
+            if(move_forward==1)
+            {
+             a.style.left='-100%';
+             b.style.left='11%';
+            }
+          }
+          });
+         }
+         else
+         {
+          alert("Please select the show format");
+         }
+        }
+        else if(num==2)
+        {
+          move_forward=0;
+          let a=document.getElementsByName('date');
+          a.forEach(function(item){
+          if(item.checked)
+          {
+            move_forward=1;
+            $.ajax({
+             url:'{% url 'booking:filter' %}',
+             data:{
+                    'layout':item.value
+                  },
+             success:function(data)
+             {
+               for(i=0;i<data.seats.length;i++)
+               {
+                 if(data.seats[i].status.toString().toLowerCase()=='false')
+                 {
+                document.getElementById('screenLayout').innerHTML+="<div class='col-1 p-2'>"+
+                                "<div class='border border-white seat bg-light' available='Yes' id='" + data.seats[i].seat_number + "'status='" + data.seats[i].status.toString().toLowerCase() + "' onclick=changestatus('" +data.seats[i].seat_number + "')>"+
+                                "</div>"+
+                            "</div>";
+                }
+                else
+                {
+                  document.getElementById('screenLayout').innerHTML+="<div class='col-1 p-2'>"+
+                                "<div class='border border-white seat bg-dark' available='no'  id='" + data.seats[i].seat_number + "'status='" + data.seats[i].status.toString().toLowerCase() + "' onclick=changestatus('" +data.seats[i].seat_number + "')>"+
+                                "</div>"+
+                            "</div>";
+                }
+                if(data.seats[i].seat_number==24)
+                {
+                document.getElementById('screenLayout').innerHTML+="<div class='col-12 border border-white'>"+
+
+                "</div>";
+                }
+               }
+               for(i=0;i<data.available_rows.length;i++)
+               {
+          //     alert(data.available_rows);
+                document.getElementById('allrows').innerHTML+="<div class='col-12 p-2 '>"+
+                                "<div class='seat text-white'  id='"+data.available_rows[i].row+"'>"+
+                                data.available_rows[i].row+
+                                "</div>"+
+                         "</div>";
+               }
+
+              //alert("generating Layout");
+              if(move_forward==1)
+              {
+               b.style.left='-100%';
+               c.style.left='11%';
+              }
+             }
+           });
+          }
+          });
+          if(move_forward==0)
+          {
+           alert("Please select the show first ");
+          }
+        }
+        else if(num==3)
+        {
+         //alert(sessionStorage.getItem('selected_seat'));
+          $.ajax({
+          url:'{% url 'booking:filter' %}',
+          data:{
+                'seats':sessionStorage.getItem('selected_seat')
+                },
+          success:function(data)
+          {
+           //    alert(data);
+          }
+          });
+
+          c.style.left='-100%';
+          d.style.left='10%';
+        }
+        else if(num==4)
+        {
+          $.ajax({
+          url:'{% url 'booking:filter' %}',
+          success:function(data)
+          {
+           sessionStorage.setItem('summary',JSON.stringify(data.summary));
+           document.getElementById('summary_show').innerHTML=data.summary.format;
+           document.getElementById('summary_ticket').innerHTML=data.summary.numberoftickets;
+           document.getElementById('summary_seatno').innerHTML=data.summary.seats;
+           document.getElementById('summary_price').innerHTML=data.summary.price;
+          // alert("generating summary\n");
+          }
+          })
+          d.style.left='-100%';
+          e.style.left='10%';
+        }
+
+        /*var a=document.documentElement.clientWidth;
+        var b=0.1*a;
+        a=a-b;
+        window.scrollBy(a,0);*/
+      }
+      function callprev(num)
+      {
+        alert("yoyo");
+        if(num==1)
+        {
+          a.style.left='10%';
+          b.style.left='110%';
+          document.getElementById('show_content').innerHTML="";
+        }
+        else if(num==2)
+        {
+          b.style.left='10%';
+          c.style.left='110%';
+          document.getElementById('allrows').innerHTML="";
+          document.getElementById('screenLayout').innerHTML="";
+        }
+        else if(num==3)
+        {
+          c.style.left='10%';
+          d.style.left='110%';
+        }
+        
+      }
+      function filterbydate(val)
+      {
+       $.ajax({
+       url:'{% url 'booking:filter' %}',
+       data:{
+             'selected_date':val
+             },
+       success:function(data){
+               document.getElementById('show_content').innerHTML="";
+               for(i=0;i<data.shows.length;i++)
+               {
+                document.getElementById('show_content').innerHTML+="<tr>"+
+                     "<td><input type='radio' name='date' value='"+data.shows[i].layout+"'/></td>"+
+                      "<td class='lead text-secondary  p-2  '>"+data.shows[i].date+"</td>"+
+                      "<td class='lead text-secondary p-2  '>"+data.shows[i].start_time+"</td>"+
+                      "<td class='lead text-secondary p-2  '>"+data.shows[i].end_time+"</td>"+
+                      "<td class='lead text-secondary  p-2  '>Fast filling</td>"+
+                       "<td class='lead text-secondary  p-2  '>"+data.shows[i].price+"</td>"+
+                   "</tr>";
+              }
+            //   alert("hello");
+               }
+       });
+      }
+    </script>
+  </body>
+</html>

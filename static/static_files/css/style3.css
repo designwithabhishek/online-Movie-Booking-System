@@ -1,0 +1,139 @@
+body {
+  background-color: white;
+  box-sizing: border-box;
+}
+#book_tickets {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+#main-form {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+#section1 {
+  width: 90%;
+  background-color: #141414;
+  transition: left 3s;
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 0;
+  height: 100%;
+}
+#section2 {
+  background-color: #141414;
+  width: 90%;
+  position: absolute;
+  left: 110%;
+  top: 0;
+  transition: left 3s;
+}
+#navigation {
+  position: fixed;
+  z-index: 99;
+  width: 10%;
+  height: 100vh;
+  background-color: black;
+}
+.selectedmovie {
+  background-image: url(../img/spider-man-far-from-home-poster-fury-mysterio-2.jpg);
+  background-size: cover;
+}
+#section3 {
+  background-image: url(../img/cinema-2093264_1920.jpg);
+  background-size: cover;
+  width: 90%;
+  position: absolute;
+  left: 110%;
+  top: 0;
+  transition: left 3s;
+}
+.section3-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+#section4 {
+  background-color: #141414;
+  width: 90%;
+  position: absolute;
+  left: 110%;
+  top: 0;
+  transition: left 3s;
+}
+.food-corner {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+  background-image: url(../img/bread-burger-cheese-580612.jpg);
+  background-size: cover;
+}
+#meal-box {
+  list-style: none;
+}
+#section5 {
+  background-color: white;
+  width: 90%;
+  position: absolute;
+  left: 110%;
+  top: 0;
+  transition: left 3s;
+}
+
+@media screen and (max-width: 1000px) {
+  #section2 {
+    overflow-y: scroll;
+  }
+  #section2-part1 {
+    order: 2;
+  }
+  #section2-part2 {
+    display: none !important;
+  }
+  #section4 {
+    overflow-y: scroll;
+  }
+  #section4-part1 {
+    position: absolute;
+    z-index: 56;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100%;
+  }
+  #section4-part2 {
+    height: 100%;
+    overflow: hidden;
+  }
+  .color-change {
+    color: darkgrey !important;
+  }
+}
+.seat{
+border-radius:5px 5px;
+width:50px;
+height:50px;
+}
+.trapezoid {
+  width: 800px;
+  height: 50px;
+  transform: perspective(5px)rotateX(1deg);
+  margin: 50px;
+}
+
+@media screen and (max-width: 768px) {
+  #section1 {
+    overflow-y: scroll;
+  }
+}
+@media screen and(max-width:450px) {
+  #section3-main-text {
+    font-size: 10px !important;
+  }
+}
+.days{
+background-color:#141414;
+}
